@@ -6,6 +6,7 @@
 	import beam_light from '$lib/images/beam-light.webp';
 	import beam_light_fallback from '$lib/images/beam-light.png';
 	import PageTransition from '$lib/components/PageTransition.svelte';
+
 	import type { PageData } from './$types';
 
 	export let data: PageData;

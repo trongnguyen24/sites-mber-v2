@@ -66,6 +66,16 @@
 					</div>
 				</div>
 			</a>
+			<a rel="noreferrer" target="_blank" href="https://{club.sandbox}/page">
+				<div
+					class="flex items-center h-6 overflow-hidden text-xs transition-all border divide-x rounded divide-emerald-500 font-code border-slate-200 dark:hover:border-slate-600 hover:border-slate-400 dark:border-gray-800"
+				>
+					<div class="w-10 pl-2 text-slate-700 shrink-0 dark:text-slate-100 select-none">Sand</div>
+					<div class="h-6 max-w-full pl-2 leading-6 whitespace-nowrap text-slate-400">
+						{club.sandbox}
+					</div>
+				</div>
+			</a>
 			<a rel="noreferrer" target="_blank" href="https://{club.live}/page">
 				<div
 					class="flex items-center h-6 overflow-hidden text-xs transition-all border divide-x rounded divide-lime-500 font-code border-slate-200 dark:hover:border-slate-600 hover:border-slate-400 dark:border-gray-800"
