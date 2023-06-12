@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Header from './Header.svelte';
 	import '../app.css';
 	import beam from '$lib/images/beam.webp';
@@ -6,10 +6,12 @@
 	import beam_light from '$lib/images/beam-light.webp';
 	import beam_light_fallback from '$lib/images/beam-light.png';
 	import PageTransition from '$lib/components/PageTransition.svelte';
-	export let data;
+	import type { PageData } from './$types';
+
+	export let data: PageData;
 </script>
 
-<Header />
+<Header user={data.user} />
 <div class="flex flex-col min-h-full">
 	<div
 		class="absolute z-10 top-0 inset-x-0 flex justify-center overflow-hidden pointer-events-none select-none"
@@ -29,7 +31,6 @@
 
 	<main class="w-full grow mx-auto z-10 py-28">
 		<PageTransition pathname={data.pathname}>
-			{data.user?.name}
 			<slot />
 		</PageTransition>
 	</main>

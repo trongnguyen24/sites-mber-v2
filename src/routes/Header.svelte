@@ -1,8 +1,13 @@
-<script>
+<script lang="ts">
 	import Menu from '$lib/components/Menu.svelte';
 	import Transition from 'svelte-transition';
+	import { scale } from 'svelte/transition';
+	import { createDialog } from 'svelte-headlessui';
+	import Theme from '$lib/components/Theme.svelte';
 
+	const dialogmenu = createDialog({ label: 'Menu' });
 	let scrolly;
+	export let user;
 </script>
 
 <svelte:window bind:scrollY={scrolly} />
@@ -81,7 +86,7 @@
 				</svg>
 			</div>
 
-			<button class="order-3 block">
+			<button on:click={dialogmenu.open} class="order-3 block">
 				<svg
 					class="stroke-slate-400 hover:stroke-slate-300 dark:stroke-slate-500 dark:hover:stroke-slate-400"
 					width="24"
@@ -185,28 +190,93 @@
 					Quick search...
 				</button>
 			</div>
-			<div class="flex gap-8 divide-x dark:divide-slate-800">
+			<div class="flex gap-8 divide-x dark:divide-slate-800 items-center">
 				<Menu />
-				<span class="pl-8 gap-8 flex">
-					<a href="/login">
-						<svg
-							width="24"
-							height="24"
-							class=" stroke-slate-600 dark:stroke-slate-300"
-							viewBox="0 0 24 24"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-								d="M17.9815 18.7248C16.6121 16.9175 14.4424 15.75 12 15.75C9.55761 15.75 7.38789 16.9175 6.01846 18.7248M17.9815 18.7248C19.8335 17.0763 21 14.6744 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 14.6744 4.1665 17.0763 6.01846 18.7248M17.9815 18.7248C16.3915 20.1401 14.2962 21 12 21C9.70383 21 7.60851 20.1401 6.01846 18.7248M15 9.75C15 11.4069 13.6569 12.75 12 12.75C10.3431 12.75 9 11.4069 9 9.75C9 8.09315 10.3431 6.75 12 6.75C13.6569 6.75 15 8.09315 15 9.75Z"
-								stroke-width="1.5"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-						</svg>
-					</a>
+				<span class="pl-8 gap-8 flex items-center">
+					<Theme />
+					<div class="relative w-8 h-8 justify-center items-center">
+						{#if user === undefined}
+							<a class="absolute top-1 left-1" in:scale out:scale href="/login">
+								<svg
+									width="24"
+									height="24"
+									class=" stroke-slate-600 dark:stroke-slate-300 hover:stroke-slate-500 dark:hover:stroke-slate-400"
+									viewBox="0 0 24 24"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										d="M17.9815 18.7248C16.6121 16.9175 14.4424 15.75 12 15.75C9.55761 15.75 7.38789 16.9175 6.01846 18.7248M17.9815 18.7248C19.8335 17.0763 21 14.6744 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 14.6744 4.1665 17.0763 6.01846 18.7248M17.9815 18.7248C16.3915 20.1401 14.2962 21 12 21C9.70383 21 7.60851 20.1401 6.01846 18.7248M15 9.75C15 11.4069 13.6569 12.75 12 12.75C10.3431 12.75 9 11.4069 9 9.75C9 8.09315 10.3431 6.75 12 6.75C13.6569 6.75 15 8.09315 15 9.75Z"
+										stroke-width="1.5"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+								</svg>
+							</a>
+						{:else}
+							<form in:scale out:scale class="flex absolute" action="/logout" method="POST">
+								<button
+									type="submit"
+									class="h-8 w-8 rounded-full overflow-hidden focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+								>
+									<img
+										class="h-8 w-8 rounded-full"
+										src="https://api.dicebear.com/6.x/avataaars-neutral/svg?seed=Oreo"
+										alt="avatar"
+									/>
+								</button>
+							</form>
+						{/if}
+					</div>
 				</span>
 			</div>
 		</div>
 	</nav>
+
+	<div class="relative z-40">
+		<Transition show={$dialogmenu.expanded}>
+			<Transition
+				enter="ease-out duration-300"
+				enterFrom="opacity-0"
+				enterTo="opacity-100"
+				leave="ease-in duration-200"
+				leaveFrom="opacity-100"
+				leaveTo="opacity-0"
+			>
+				<button
+					class="fixed inset-0 bg-opacity-50 bg-zinc-900 backdrop-blur-sm"
+					on:click={dialogmenu.close}
+				/>
+			</Transition>
+
+			<div class="fixed inset-0 overflow-y-auto">
+				<div class="flex justify-end p-4 text-center">
+					<Transition
+						enter="ease-out duration-300"
+						enterFrom="opacity-0 scale-95"
+						enterTo="opacity-100 scale-100"
+						leave="ease-in duration-200"
+						leaveFrom="opacity-100 scale-100"
+						leaveTo="opacity-0 scale-95"
+					>
+						<div
+							class="p-6 overflow-hidden text-left align-middle transition-all transform border-t rounded-lg shadow-xl w-52 bg-slate-100 border-t-white dark:border-t-gray-700 dark:bg-gray-800"
+							use:dialogmenu.modal
+						>
+							<!-- svelte-ignore a11y-click-events-have-key-events -->
+							<ul on:click={dialogmenu.close} class="flex flex-col gap-6">
+								<Menu />
+							</ul>
+							<div
+								class="flex justify-between pt-6 mt-6 border-t border-t-gray-200 dark:border-t-gray-700"
+							>
+								<div class="font-normal text-gray-400 dark:text-gray-500">Switch theme</div>
+								<Theme />
+							</div>
+						</div>
+					</Transition>
+				</div>
+			</div>
+		</Transition>
+	</div>
 </header>

@@ -42,10 +42,15 @@ function negotiate(accept, types) {
 }
 function is_content_type(request, ...types) {
   const type = request.headers.get("content-type")?.split(";", 1)[0].trim() ?? "";
-  return types.includes(type);
+  return types.includes(type.toLowerCase());
 }
 function is_form_content_type(request) {
-  return is_content_type(request, "application/x-www-form-urlencoded", "multipart/form-data");
+  return is_content_type(
+    request,
+    "application/x-www-form-urlencoded",
+    "multipart/form-data",
+    "text/plain"
+  );
 }
 function coalesce_to_error(err) {
   return err instanceof Error || err && /** @type {any} */
@@ -82,7 +87,8 @@ function allowed_methods(mod) {
   return allowed;
 }
 function static_error_page(options2, status, message) {
-  return text(options2.templates.error({ status, message }), {
+  let page = options2.templates.error({ status, message });
+  return text(page, {
     headers: { "content-type": "text/html; charset=utf-8" },
     status
   });
@@ -432,7 +438,7 @@ async function call_action(event, actions) {
   }
   if (!is_form_content_type(event.request)) {
     throw new Error(
-      `Actions expect form-encoded data (received ${event.request.headers.get("content-type")}`
+      `Actions expect form-encoded data (received ${event.request.headers.get("content-type")})`
     );
   }
   return action(event);
@@ -1074,21 +1080,29 @@ function defer() {
   return { promise, fulfil, reject };
 }
 function create_async_iterator() {
-  let deferred = defer();
+  let deferred = [defer()];
   return {
     iterator: {
       [Symbol.asyncIterator]() {
         return {
-          next: () => deferred.promise
+          next: async () => {
+            const next = await deferred[0].promise;
+            if (!next.done)
+              deferred.shift();
+            return next;
+          }
         };
       }
     },
     push: (value) => {
-      deferred.fulfil({ value, done: false });
-      deferred = defer();
+      deferred[deferred.length - 1].fulfil({
+        value,
+        done: false
+      });
+      deferred.push(defer());
     },
     done: () => {
-      deferred.fulfil({ done: true });
+      deferred[deferred.length - 1].fulfil({ done: true });
     }
   };
 }
@@ -1809,30 +1823,13 @@ async function render_page(event, page, options2, manifest, state, resolve_opts)
     }
     const should_prerender_data = nodes.some((node) => node?.server);
     const data_pathname = add_data_suffix(event.url.pathname);
-    const should_prerender = get_option(nodes, "prerender");
+    const should_prerender = get_option(nodes, "prerender") ?? false;
     if (should_prerender) {
       const mod = leaf_node.server;
       if (mod?.actions) {
         throw new Error("Cannot prerender pages with actions");
       }
     } else if (state.prerendering) {
-      if (should_prerender !== false && get_option(nodes, "ssr") === false && !leaf_node.server?.actions) {
-        return await render_response({
-          branch: [],
-          fetched: [],
-          page_config: {
-            ssr: false,
-            csr: get_option(nodes, "csr") ?? true
-          },
-          status,
-          error: null,
-          event,
-          options: options2,
-          manifest,
-          state,
-          resolve_opts
-        });
-      }
       return new Response(void 0, {
         status: 204
       });
@@ -2046,7 +2043,7 @@ function exec(match, params, matchers) {
       result[param.name] = value;
       const next_param = params[i + 1];
       const next_value = values[i + 1];
-      if (next_param && !next_param.rest && next_value) {
+      if (next_param && !next_param.rest && next_param.optional && next_value) {
         buffered = 0;
       }
       continue;
@@ -2089,9 +2086,7 @@ function get_cookies(request, url, trailing_slash) {
       const decoder = opts?.decode || decodeURIComponent;
       const req_cookies = parse(header, { decode: decoder });
       const cookie = req_cookies[name];
-      {
-        return cookie;
-      }
+      return cookie;
     },
     /**
      * @param {import('cookie').CookieParseOptions} opts
@@ -2347,7 +2342,7 @@ const default_preload = ({ type }) => type === "js" || type === "css";
 async function respond(request, options2, manifest, state) {
   let url = new URL(request.url);
   if (options2.csrf_check_origin) {
-    const forbidden = request.method === "POST" && request.headers.get("origin") !== url.origin && is_form_content_type(request);
+    const forbidden = is_form_content_type(request) && (request.method === "POST" || request.method === "PUT" || request.method === "PATCH" || request.method === "DELETE") && request.headers.get("origin") !== url.origin;
     if (forbidden) {
       const csrf_error = error(403, `Cross-site ${request.method} form submissions are forbidden`);
       if (request.headers.get("accept") === "application/json") {
@@ -2457,7 +2452,7 @@ async function respond(request, options2, manifest, state) {
       const normalized = normalize_path(url.pathname, trailing_slash ?? "never");
       if (normalized !== url.pathname && !state.prerendering?.fallback) {
         return new Response(void 0, {
-          status: 301,
+          status: 308,
           headers: {
             "x-sveltekit-normalize": "1",
             location: (
@@ -2647,13 +2642,19 @@ class Server {
     const pub = Object.fromEntries(entries.filter(([k]) => k.startsWith(prefix)));
     set_public_env(pub);
     if (!this.#options.hooks) {
-      const module = await get_hooks();
-      this.#options.hooks = {
-        handle: module.handle || (({ event, resolve }) => resolve(event)),
-        // @ts-expect-error
-        handleError: module.handleError || (({ error: error2 }) => console.error(error2?.stack)),
-        handleFetch: module.handleFetch || (({ request, fetch: fetch2 }) => fetch2(request))
-      };
+      try {
+        const module = await get_hooks();
+        this.#options.hooks = {
+          handle: module.handle || (({ event, resolve }) => resolve(event)),
+          // @ts-expect-error
+          handleError: module.handleError || (({ error: error2 }) => console.error(error2?.stack)),
+          handleFetch: module.handleFetch || (({ request, fetch: fetch2 }) => fetch2(request))
+        };
+      } catch (error2) {
+        {
+          throw error2;
+        }
+      }
     }
   }
   /**

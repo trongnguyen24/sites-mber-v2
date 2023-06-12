@@ -1,12 +1,13 @@
-<script>
-	export let form;
+<script lang="ts">
+	import { enhance } from '$app/forms';
+	export let form: ActionData;
 </script>
 
 <div class="flex flex-col items-center h-full w-full">
 	<h2 class="my-12 text-center text-3xl font-bold text-slate-800 dark:text-slate-50">
 		Login to your account
 	</h2>
-	<form action="?/login" method="POST" class="w-full max-w-sm">
+	<form action="?/login" method="POST" class="w-full max-w-sm" use:enhance>
 		<div class="mb-6">
 			<label
 				for="email"

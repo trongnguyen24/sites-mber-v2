@@ -1,10 +1,10 @@
-import * as server from '../entries/pages/club/new/_page.server.js';
+import * as server from '../entries/pages/login/_page.server.js';
 
 export const index = 5;
-export const component = async () => (await import('../entries/pages/club/new/_page.svelte.js')).default;
-export const file = '_app/immutable/entry/club-new-page.svelte.120d103f.js';
+export const component = async () => (await import('../entries/pages/login/_page.svelte.js')).default;
+export const file = '_app/immutable/entry/login-page.svelte.a9d9c8c9.js';
 export { server };
-export const server_id = "src/routes/club/new/+page.server.js";
-export const imports = ["_app/immutable/entry/club-new-page.svelte.120d103f.js","_app/immutable/chunks/index.1b571520.js","_app/immutable/chunks/utils.73a3fb9b.js","_app/immutable/chunks/preload-helper.41c905a7.js","_app/immutable/chunks/input.0902540b.js"];
+export const server_id = "src/routes/login/+page.server.js";
+export const imports = ["_app/immutable/entry/login-page.svelte.a9d9c8c9.js","_app/immutable/chunks/index.b7dd4f9f.js","_app/immutable/chunks/forms.834dbd2e.js","_app/immutable/chunks/parse.5567e4e2.js","_app/immutable/chunks/singletons.db5ade20.js"];
 export const stylesheets = [];
 export const fonts = [];

@@ -57,7 +57,6 @@ function setContext(key, context) {
 function getContext(key) {
   return get_current_component().$$.context.get(key);
 }
-Promise.resolve();
 const ATTR_REGEX = /[&"]/g;
 const CONTENT_REGEX = /[&<]/g;
 function escape(value, is_attr = false) {
@@ -155,8 +154,8 @@ export {
   createEventDispatcher as f,
   getContext as g,
   add_styles as h,
-  is_promise as i,
-  safe_not_equal as j,
+  safe_not_equal as i,
+  is_promise as j,
   missing_component as m,
   noop as n,
   setContext as s,
