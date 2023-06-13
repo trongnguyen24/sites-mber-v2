@@ -2,6 +2,7 @@
 	// import { enhance } from '$app/forms';
 	import { Input } from '$lib/components';
 	import { getImageURL } from '$lib/utils';
+	import { scale } from 'svelte/transition';
 	import { page } from '$app/stores';
 	import { createDialog } from 'svelte-headlessui';
 	import Transition from 'svelte-transition';
@@ -12,7 +13,7 @@
 
 	const fetchdata = (async () => {
 		const response = await fetch(
-			'https://lazy-traffic.pockethost.io//api/collections/club/records/' + idclub
+			'http://backend.nguyenlee.com/api/collections/club/records/' + idclub
 		);
 		return await response.json();
 	})();
@@ -29,11 +30,36 @@
 </script>
 
 <div class="flex flex-col items-center h-full w-full">
-	<div class="w-full">
+	<div class="w-full relative">
 		{#await fetchdata}
-			<p class="text-center">...waiting</p>
+			<p
+				class="text-center inline-flex items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+			>
+				<svg
+					class="animate-spin -ml-1 mr-3 h-5 w-5 text-slate-600 dark:text-mber"
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+				>
+					<circle
+						class="opacity-25"
+						cx="12"
+						cy="12"
+						r="10"
+						stroke="currentColor"
+						stroke-width="4"
+					/>
+					<path
+						class="opacity-75"
+						fill="currentColor"
+						d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+					/>
+				</svg>Processing...
+			</p>
 		{:then club}
 			<form
+				in:scale={{ duration: 700, delay: 200, opacity: 0, start: 0.97 }}
+				out:scale={{ duration: 250, delay: 0, opacity: 0, start: 1.01 }}
 				action="?/updateProject"
 				method="POST"
 				class="w-full max-w-sm mx-auto"
@@ -126,7 +152,7 @@
 		>
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<div
-				class="fixed inset-0 bg-opacity-60 bg-zinc-50 backdrop-blur-sm"
+				class="fixed inset-0 dark:bg-gray-900 dark:bg-opacity-80 bg-opacity-60 bg-zinc-50 backdrop-blur-sm"
 				on:click={dialogdel.close}
 			/>
 		</Transition>
@@ -145,7 +171,11 @@
 						class="w-full flex flex-col gap-8 p-12 max-w-xl overflow-hidden align-middle transition-all transform border-t rounded-lg shadow-xl text-slate-600 dark:text-slate-300 bg-slate-50 border-t-white dark:border-t-gray-700 dark:bg-gray-800"
 						use:dialogdel.modal
 					>
-						<div class="flex flex-col">Are you sure you want to delete this project?</div>
+						<div>
+							Are you sure you want to <span class="inline dark:text-red-500 text-red-700 font-bold"
+								>DELETE</span
+							> this project?
+						</div>
 						<div class="flex gap-6">
 							<button
 								type="button"

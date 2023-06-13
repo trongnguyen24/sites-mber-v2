@@ -1,13 +1,20 @@
 <script lang="ts">
 	import Menu from '$lib/components/Menu.svelte';
+	import { page } from '$app/stores';
 	import Transition from 'svelte-transition';
 	import { getImageURL } from '$lib/utils';
 	import { scale } from 'svelte/transition';
 	import { createDialog } from 'svelte-headlessui';
+	import { createMenu } from 'svelte-headlessui';
 	import Theme from '$lib/components/Theme.svelte';
 	import { club2s } from '$lib/Store.js';
 
 	let datasearch;
+
+	const accmenu = createMenu({ label: 'accmenu' });
+	function onSelect(e: Event) {
+		console.log('select', (e as CustomEvent).detail);
+	}
 
 	let searchTerm = '';
 	let filteredBooks = [];
@@ -31,6 +38,7 @@
 
 	const dialogmenu = createDialog({ label: 'Menu' });
 	const dialogsearch = createDialog({ label: 'Search' });
+	const dialogacc = createDialog({ label: 'Account' });
 
 	let scrolly;
 	export let user;
@@ -197,7 +205,7 @@
 				</a>
 				<button
 					on:click={dialogsearch.open}
-					class="flex w-full items-center max-w-[12rem] gap-2 px-2 py-2 text-gray-500 dark:text-gray-300"
+					class="flex w-full items-center max-w-[16rem] gap-2 px-2 py-2 text-gray-500 dark:text-gray-300 bg-slate-500 bg-opacity-0 hover:bg-opacity-5 transition duration-300 rounded-lg"
 				>
 					<svg
 						class="stroke-gray-500 dark:stroke-gray-300"
@@ -217,9 +225,14 @@
 					Quick search...
 				</button>
 			</div>
-			<div class="flex gap-8 divide-x dark:divide-slate-800 items-center">
+			<div class="flex gap-8 items-center">
 				<Menu />
-				<span class="pl-8 gap-8 flex items-center">
+				<a
+					aria-current={$page.url.pathname === '/club/new' ? 'true' : undefined}
+					class="font-semibold text-gray-600 transition-colors duration-200 dark:text-gray-200 aria-current:text-lime-500 hover:text-lime-500 dark:aria-current:text-mber"
+					href="/club/new">+Project</a
+				>
+				<span class="gap-8 flex items-center">
 					<Theme />
 					<div class="relative w-8 h-8 justify-center items-center">
 						{#if user === undefined}
@@ -241,18 +254,57 @@
 								</svg>
 							</a>
 						{:else}
-							<form in:scale out:scale class="flex absolute" action="/logout" method="POST">
+							<div class="relative z-10 inline-block">
 								<button
+									use:accmenu.button
+									on:select={onSelect}
 									type="submit"
 									class="h-8 w-8 rounded-full overflow-hidden focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+									on:click={dialogacc.open}
 								>
 									<img
+										in:scale
+										out:scale
 										class="h-8 w-8 rounded-full"
 										src="https://api.dicebear.com/6.x/avataaars-neutral/svg?seed=Oreo"
 										alt="avatar"
 									/>
 								</button>
-							</form>
+								<Transition
+									show={$accmenu.expanded}
+									enter="transition ease-out duration-150"
+									enterFrom="transform opacity-0 scale-95"
+									enterTo="transform opacity-100 scale-100"
+									leave="transition ease-in duration-90"
+									leaveFrom="transform opacity-100 scale-100"
+									leaveTo="transform opacity-0 scale-95"
+								>
+									<div
+										use:accmenu.items
+										class="absolute right-0 w-36 mt-3 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-gray-200 focus:outline-none dark:ring-gray-700 dark:bg-gray-800"
+									>
+										<div class="py-1">
+											<a
+												href="/account"
+												use:accmenu.item
+												class="w-full inline-block text-right px-4 py-2 text-sm text-gray-700 dark:text-gray-400 group dark:hover:bg-gray-700 hover:bg-slate-100"
+											>
+												My Account
+											</a>
+
+											<form class="" action="/logout" method="POST">
+												<button
+													use:accmenu.item
+													class="w-full text-right px-4 py-2 text-sm text-gray-700 dark:text-gray-400 group dark:hover:bg-gray-700 hover:bg-slate-100"
+													type="submit"
+												>
+													Logout
+												</button>
+											</form>
+										</div>
+									</div>
+								</Transition>
+							</div>
 						{/if}
 					</div>
 				</span>
@@ -306,6 +358,7 @@
 			</div>
 		</Transition>
 	</div>
+
 	<div class="relative z-40">
 		<Transition show={$dialogsearch.expanded}>
 			<Transition
@@ -393,35 +446,35 @@
 										<div class="flex gap-2 font-code text-center text-xs">
 											<a rel="noreferrer" target="_blank" href="https://{results.dev}/page"
 												><div
-													class="border py-0.5 w-10 rounded bg-slate-50 text-slate-400 border-slate-300 dark:border-slate-600 dark:bg-slate-700 group-hover:border-sky-500 group-hover:text-slate-500 group-hover:bg-white dark:bg-opacity-50 dark:hover:bg-opacity-100 dark:group-hover:bg-slate-700 dark:group-hover:text-slate-300 transition-colors duration-150"
+													class="border py-0.5 w-9 rounded bg-slate-50 text-slate-400 border-slate-300 dark:border-slate-600 dark:bg-slate-700 group-hover:border-sky-500 group-hover:text-slate-500 group-hover:bg-white dark:bg-opacity-50 dark:hover:bg-opacity-100 dark:group-hover:bg-slate-700 dark:group-hover:text-slate-300 transition-colors duration-150"
 												>
 													Dev
 												</div></a
 											>
 											<a rel="noreferrer" target="_blank" href="https://{results.test}/page"
 												><div
-													class="border py-0.5 px-1 w-10 rounded bg-slate-50 text-slate-400 border-slate-300 dark:border-slate-600 dark:bg-slate-700 group-hover:border-purple-500 group-hover:text-slate-500 group-hover:bg-white dark:bg-opacity-50 dark:hover:bg-opacity-100 dark:group-hover:bg-slate-700 dark:group-hover:text-slate-300 transition-colors duration-150"
+													class="border py-0.5 px-1 w-9 rounded bg-slate-50 text-slate-400 border-slate-300 dark:border-slate-600 dark:bg-slate-700 group-hover:border-purple-500 group-hover:text-slate-500 group-hover:bg-white dark:bg-opacity-50 dark:hover:bg-opacity-100 dark:group-hover:bg-slate-700 dark:group-hover:text-slate-300 transition-colors duration-150"
 												>
 													Test
 												</div></a
 											>
 											<a rel="noreferrer" target="_blank" href="https://{results.uat}/page"
 												><div
-													class="border py-0.5 px-1 w-10 rounded bg-slate-50 text-slate-400 border-slate-300 dark:border-slate-600 dark:bg-slate-700 group-hover:border-emerald-500 group-hover:text-slate-500 group-hover:bg-white dark:bg-opacity-50 dark:hover:bg-opacity-100 dark:group-hover:bg-slate-700 dark:group-hover:text-slate-300 transition-colors duration-150"
+													class="border py-0.5 px-1 w-9 rounded bg-slate-50 text-slate-400 border-slate-300 dark:border-slate-600 dark:bg-slate-700 group-hover:border-emerald-500 group-hover:text-slate-500 group-hover:bg-white dark:bg-opacity-50 dark:hover:bg-opacity-100 dark:group-hover:bg-slate-700 dark:group-hover:text-slate-300 transition-colors duration-150"
 												>
 													Uat
 												</div></a
 											>
 											<a rel="noreferrer" target="_blank" href="https://{results.sandbox}/page"
 												><div
-													class="border py-0.5 px-1 w-10 rounded bg-slate-50 text-slate-400 border-slate-300 dark:border-slate-600 dark:bg-slate-700 group-hover:border-fuchsia-500 group-hover:text-slate-500 group-hover:bg-white dark:bg-opacity-50 dark:hover:bg-opacity-100 dark:group-hover:bg-slate-700 dark:group-hover:text-slate-300 transition-colors duration-150"
+													class="border py-0.5 px-1 w-9 rounded bg-slate-50 text-slate-400 border-slate-300 dark:border-slate-600 dark:bg-slate-700 group-hover:border-fuchsia-500 group-hover:text-slate-500 group-hover:bg-white dark:bg-opacity-50 dark:hover:bg-opacity-100 dark:group-hover:bg-slate-700 dark:group-hover:text-slate-300 transition-colors duration-150"
 												>
 													Sand
 												</div></a
 											>
 											<a rel="noreferrer" target="_blank" href="https://{results.live}/page"
 												><div
-													class="border py-0.5 px-1 w-10 rounded bg-slate-50 text-slate-400 border-slate-300 dark:border-slate-600 dark:bg-slate-700 group-hover:border-lime-500 group-hover:text-slate-500 group-hover:bg-white dark:bg-opacity-50 dark:hover:bg-opacity-100 dark:group-hover:bg-slate-700 dark:group-hover:text-slate-300 transition-colors duration-150"
+													class="border py-0.5 px-1 w-9 rounded bg-slate-50 text-slate-400 border-slate-300 dark:border-slate-600 dark:bg-slate-700 group-hover:border-lime-500 group-hover:text-slate-500 group-hover:bg-white dark:bg-opacity-50 dark:hover:bg-opacity-100 dark:group-hover:bg-slate-700 dark:group-hover:text-slate-300 transition-colors duration-150"
 												>
 													Live
 												</div></a
