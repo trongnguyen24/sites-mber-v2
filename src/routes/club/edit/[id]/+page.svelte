@@ -105,6 +105,7 @@
 				<Input id="dev" label="Dev" value={club.dev ?? ''} />
 				<Input id="test" label="Test" value={club.test ?? ''} />
 				<Input id="uat" label="UAT" value={club.uat ?? ''} />
+				<Input id="sandbox" label="Sandbox" value={club.sandbox ?? ''} />
 				<Input id="live" label="Live" value={club.live ?? ''} />
 
 				<div class="w-full flex max-w-lg gap-6 pt-6">

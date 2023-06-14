@@ -18,6 +18,7 @@
 			<Input id="dev" label="Dev" />
 			<Input id="test" label="Test" />
 			<Input id="uat" label="UAT" />
+			<Input id="sandbox" label="Sandbox" />
 			<Input id="live" label="Live" />
 			<div class="form-control w-full max-w-lg">
 				<label

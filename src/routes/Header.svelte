@@ -226,12 +226,17 @@
 				</button>
 			</div>
 			<div class="flex gap-8 items-center">
+				{#if user != undefined}
+					<a
+						in:scale
+						out:scale
+						aria-current={$page.url.pathname === '/club/new' ? 'true' : undefined}
+						class="font-semibold text-gray-600 transition-colors duration-200 dark:text-gray-200 aria-current:text-lime-500 hover:text-lime-500 dark:aria-current:text-mber"
+						href="/club/new">+Project</a
+					>
+				{/if}
 				<Menu />
-				<a
-					aria-current={$page.url.pathname === '/club/new' ? 'true' : undefined}
-					class="font-semibold text-gray-600 transition-colors duration-200 dark:text-gray-200 aria-current:text-lime-500 hover:text-lime-500 dark:aria-current:text-mber"
-					href="/club/new">+Project</a
-				>
+
 				<span class="gap-8 flex items-center">
 					<Theme />
 					<div class="relative w-8 h-8 justify-center items-center">
