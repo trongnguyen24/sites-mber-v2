@@ -15,6 +15,7 @@
 
 	console.log($page.url.search);
 
+	let pint = [];
 	let clubscache;
 	let clubscache2;
 	let sortname;
@@ -27,6 +28,10 @@
 	club2s.subscribe((dataclub2) => {
 		clubscache2 = dataclub2;
 	});
+
+	pint = [...pint, clubscache2[0]];
+	pint = [...pint, clubscache2[2]];
+	console.log(pint);
 
 	function setnew() {
 		localStorage.setItem('sortname', '0');
@@ -58,10 +63,10 @@
 		} else {
 			setnew();
 		}
-		if (localStorage.viewmode == 0) {
-			viewdetail();
-		} else {
+		if (localStorage.viewmode == 1) {
 			viewcompact();
+		} else {
+			viewdetail();
 		}
 
 		if ($page.url.search == '?update') {
@@ -128,18 +133,18 @@
 							use:viewmenu.items
 							class="absolute right-0 w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-gray-200 focus:outline-none dark:ring-gray-700 dark:bg-gray-800"
 						>
-							<div class="py-1">
+							<div class="p-1.5">
 								<button
 									use:viewmenu.item
 									on:click={viewdetail}
-									class="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-400 group dark:hover:bg-gray-700 hover:bg-slate-100"
+									class="flex items-center w-full px-6 py-2 rounded text-sm text-gray-700 dark:text-gray-400 group dark:hover:bg-gray-700 hover:bg-slate-100"
 								>
 									Details
 								</button>
 								<button
 									use:viewmenu.item
 									on:click={viewcompact}
-									class="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-400 group dark:hover:bg-gray-700 hover:bg-slate-100"
+									class="flex items-center w-full px-6 py-2 rounded text-sm text-gray-700 dark:text-gray-400 group dark:hover:bg-gray-700 hover:bg-slate-100"
 								>
 									Compact
 								</button>
@@ -171,22 +176,6 @@
 							/>
 						</svg>
 						Sort
-
-						<!-- <svg
-							class=" stroke-gray-500 group-hover:stroke-gray-700 dark:stroke-gray-300 dark:group-hover:stroke-gray-50"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-								d="M8.87891 12L12.6289 15.75L16.3789 12"
-								stroke-width="1.5"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-						</svg> -->
 					</button>
 
 					<Transition
@@ -206,14 +195,14 @@
 								<button
 									use:sortmenu.item
 									on:click={setnew}
-									class="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-400 group dark:hover:bg-gray-700 hover:bg-slate-100"
+									class="flex items-center w-full px-6 py-2 text-sm text-gray-700 dark:text-gray-400 group dark:hover:bg-gray-700 hover:bg-slate-100"
 								>
 									Newest
 								</button>
 								<button
 									use:sortmenu.item
 									on:click={setname}
-									class="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-400 group dark:hover:bg-gray-700 hover:bg-slate-100"
+									class="flex items-center w-full px-6 py-2 text-sm text-gray-700 dark:text-gray-400 group dark:hover:bg-gray-700 hover:bg-slate-100"
 								>
 									Name A->Z
 								</button>
