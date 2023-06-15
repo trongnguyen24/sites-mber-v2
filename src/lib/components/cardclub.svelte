@@ -1,12 +1,21 @@
 <script>
+	import { createEventDispatcher } from 'svelte';
 	import { getImageURL } from '$lib/utils';
 	export let club, logincheck;
+	const dispatch = createEventDispatcher();
+
+	function addItemToCart() {
+		dispatch(console.log(club.id));
+	}
 </script>
 
 <article
 	class=" bg-[#F6FAFE] group overflow-hidden border-l border-t relative border-white rounded-2xl shadow-3xl dark:bg-[#1D1D23] dark:border-gray-800"
 >
-	<button id={club.id} class="hidden w-6 h-6 absolute left-2 top-2 group-hover:block bookmark">
+	<button
+		on:click={addItemToCart}
+		class="hidden w-6 h-6 absolute left-2 top-2 group-hover:block bookmark"
+	>
 		<svg
 			class="stroke-slate-300 hover:stroke-slate-500 transition-colors"
 			width="24"

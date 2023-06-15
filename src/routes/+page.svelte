@@ -4,7 +4,8 @@
 	import { scale } from 'svelte/transition';
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
-	import { Cardclub, Cardclubmini, Cardclubpin } from '$lib/components';
+	import Cardclub from '$lib/components/cardclub.svelte';
+	import { Cardclubmini, Cardclubpin } from '$lib/components';
 	import { clubs, club2s } from '$lib/Store.js';
 	import { page } from '$app/stores';
 	import { dataset_dev } from 'svelte/internal';
@@ -16,6 +17,8 @@
 	});
 
 	console.log($page.url.search);
+
+	function addItemToCart(event) {}
 
 	let pin = [];
 	let clubscache;
@@ -30,10 +33,6 @@
 	club2s.subscribe((dataclub2) => {
 		clubscache2 = dataclub2;
 	});
-
-	function isPin(pinId) {
-		return pinId.id === this.getAttribute('id');
-	}
 
 	pin = [...pin, clubscache2[0], clubscache2[1], clubscache2[2], clubscache2[3]];
 
@@ -84,14 +83,6 @@
 
 			club2s.subscribe((dataclub2) => {
 				clubscache2 = dataclub2;
-			});
-		}
-
-		function bookmark() {
-			document.querySelectorAll('.bookmark').forEach((element) => {
-				element.addEventListener('click', () => {
-					console.log(element.getAttribute('id'));
-				});
 			});
 		}
 	}
@@ -247,7 +238,7 @@
 					class="grid absolute pt-6 w-full gap-10 pb-40 grid-cols-[repeat(auto-fit,minmax(280px,_1fr))]"
 				>
 					{#each clubscache as club}
-						<Cardclub {club} logincheck={data.user} />
+						<Cardclub {club} logincheck={data.user} on:addItemToCart={addItemToCart} />
 					{/each}
 				</main>
 			{/if}
@@ -258,7 +249,7 @@
 					class="grid absolute w-full pt-6 gap-10 pb-40 grid-cols-[repeat(auto-fit,minmax(280px,_1fr))]"
 				>
 					{#each clubscache2 as club}
-						<Cardclub {club} logincheck={data.user} />
+						<Cardclub {club} logincheck={data.user} on:addItemToCart={addItemToCart} />
 					{/each}
 				</main>
 			{/if}
