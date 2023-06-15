@@ -4,6 +4,7 @@
 </script>
 
 <article
+	id={club.id}
 	class=" bg-[#F6FAFE] group overflow-hidden border-l border-t relative border-white rounded-lg shadow-3xl dark:bg-[#1D1D23] dark:border-gray-800"
 >
 	{#if logincheck != undefined}

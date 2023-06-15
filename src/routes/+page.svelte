@@ -4,18 +4,20 @@
 	import { scale } from 'svelte/transition';
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
-	import { Cardclub } from '$lib/components';
-	import { Cardclubmini } from '$lib/components';
+	import { Cardclub, Cardclubmini, Cardclubpin } from '$lib/components';
 	import { clubs, club2s } from '$lib/Store.js';
 	import { page } from '$app/stores';
 	import { dataset_dev } from 'svelte/internal';
 
 	let ready = false;
-	onMount(() => (ready = true));
+
+	onMount(() => {
+		ready = true;
+	});
 
 	console.log($page.url.search);
 
-	let pint = [];
+	let pin = [];
 	let clubscache;
 	let clubscache2;
 	let sortname;
@@ -29,9 +31,11 @@
 		clubscache2 = dataclub2;
 	});
 
-	pint = [...pint, clubscache2[0]];
-	pint = [...pint, clubscache2[2]];
-	console.log(pint);
+	function isPin(pinId) {
+		return pinId.id === this.getAttribute('id');
+	}
+
+	pin = [...pin, clubscache2[0], clubscache2[1], clubscache2[2], clubscache2[3]];
 
 	function setnew() {
 		localStorage.setItem('sortname', '0');
@@ -49,6 +53,10 @@
 	function viewcompact() {
 		localStorage.setItem('viewmode', '1');
 		viewmode = 1;
+	}
+
+	function pinadd() {
+		pin = [...pin, clubscache2[2]];
 	}
 
 	const viewmenu = createMenu({ label: 'viewmenu' });
@@ -78,7 +86,16 @@
 				clubscache2 = dataclub2;
 			});
 		}
+
+		function bookmark() {
+			document.querySelectorAll('.bookmark').forEach((element) => {
+				element.addEventListener('click', () => {
+					console.log(element.getAttribute('id'));
+				});
+			});
+		}
 	}
+
 	export let data;
 </script>
 
@@ -91,6 +108,16 @@
 		in:scale={{ duration: 700, delay: 0, opacity: 0, start: 0.97 }}
 		class="container max-w-screen-2xl"
 	>
+		<h1 class=" text-xl mb-6 font-bold text-gray-700 dark:text-gray-300 flex">Bookmark</h1>
+		<main
+			in:scale={{ duration: 700, delay: 200, opacity: 0, start: 0.97 }}
+			out:scale={{ duration: 250, delay: 0, opacity: 0, start: 1.01 }}
+			class="grid w-full gap-6 pb-16 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6"
+		>
+			{#each pin as club}
+				<Cardclubpin {club} />
+			{/each}
+		</main>
 		<div class="flex justify-between">
 			<h1 class="text-2xl font-bold text-gray-700 dark:text-gray-300 flex">Mber+® sites url</h1>
 			<div class="flex gap-6">
@@ -217,7 +244,7 @@
 				<main
 					in:scale={{ duration: 700, delay: 200, opacity: 0, start: 0.97 }}
 					out:scale={{ duration: 250, delay: 0, opacity: 0, start: 1.01 }}
-					class="grid absolute w-full gap-10 pt-11 pb-40 grid-cols-[repeat(auto-fit,minmax(280px,_1fr))]"
+					class="grid absolute pt-6 w-full gap-10 pb-40 grid-cols-[repeat(auto-fit,minmax(280px,_1fr))]"
 				>
 					{#each clubscache as club}
 						<Cardclub {club} logincheck={data.user} />
@@ -228,7 +255,7 @@
 				<main
 					in:scale={{ duration: 700, delay: 200, opacity: 0, start: 0.97 }}
 					out:scale={{ duration: 250, delay: 0, opacity: 0, start: 1.01 }}
-					class="grid absolute w-full gap-10 pt-11 pb-40 grid-cols-[repeat(auto-fit,minmax(280px,_1fr))]"
+					class="grid absolute w-full pt-6 gap-10 pb-40 grid-cols-[repeat(auto-fit,minmax(280px,_1fr))]"
 				>
 					{#each clubscache2 as club}
 						<Cardclub {club} logincheck={data.user} />
@@ -239,7 +266,7 @@
 				<main
 					in:scale={{ duration: 700, delay: 200, opacity: 0, start: 0.97 }}
 					out:scale={{ duration: 250, delay: 0, opacity: 0, start: 1.01 }}
-					class="grid absolute w-full gap-10 pt-11 pb-40 grid-cols-[repeat(auto-fit,minmax(280px,_1fr))]"
+					class="grid absolute w-full pt-6 gap-10 pb-40 grid-cols-[repeat(auto-fit,minmax(280px,_1fr))]"
 				>
 					{#each clubscache as club}
 						<Cardclubmini {club} logincheck={data.user} />
@@ -250,7 +277,7 @@
 				<main
 					in:scale={{ duration: 700, delay: 200, opacity: 0, start: 0.97 }}
 					out:scale={{ duration: 250, delay: 0, opacity: 0, start: 1.01 }}
-					class="grid absolute w-full gap-10 pt-11 pb-40 grid-cols-[repeat(auto-fit,minmax(280px,_1fr))]"
+					class="grid absolute w-full pt-6 gap-10 pb-40 grid-cols-[repeat(auto-fit,minmax(280px,_1fr))]"
 				>
 					{#each clubscache2 as club}
 						<Cardclubmini {club} logincheck={data.user} />
