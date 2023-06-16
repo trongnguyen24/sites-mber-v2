@@ -3,9 +3,11 @@
 	import { getImageURL } from '$lib/utils';
 	export let club, logincheck;
 	const dispatch = createEventDispatcher();
-
-	function addItemToCart() {
-		dispatch(console.log(club.id));
+	let item;
+	function addItemToBookmark() {
+		dispatch('addItemToBookmark', {
+			idClub: club.id
+		});
 	}
 </script>
 
@@ -13,7 +15,7 @@
 	class=" bg-[#F6FAFE] group overflow-hidden border-l border-t relative border-white rounded-2xl shadow-3xl dark:bg-[#1D1D23] dark:border-gray-800"
 >
 	<button
-		on:click={addItemToCart}
+		on:click={addItemToBookmark}
 		class="hidden w-6 h-6 absolute left-2 top-2 group-hover:block bookmark"
 	>
 		<svg

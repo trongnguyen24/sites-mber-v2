@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { createMenu } from 'svelte-headlessui';
 	import Transition from 'svelte-transition';
+	import { flip } from 'svelte/animate';
 	import { scale } from 'svelte/transition';
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
@@ -8,22 +9,16 @@
 	import { Cardclubmini, Cardclubpin } from '$lib/components';
 	import { clubs, club2s } from '$lib/Store.js';
 	import { page } from '$app/stores';
-	import { dataset_dev } from 'svelte/internal';
 
 	let ready = false;
 
-	onMount(() => {
-		ready = true;
-	});
-
 	console.log($page.url.search);
-
-	function addItemToCart(event) {}
 
 	let pin = [];
 	let clubscache;
 	let clubscache2;
 	let sortname;
+	let bookmark = [];
 	let viewmode;
 
 	clubs.subscribe((dataclub) => {
@@ -34,7 +29,35 @@
 		clubscache2 = dataclub2;
 	});
 
-	pin = [...pin, clubscache2[0], clubscache2[1], clubscache2[2], clubscache2[3]];
+	function clubid(event, item, bookmarkTemp) {
+		pin = JSON.parse(localStorage.getItem('bookmarkStore'));
+		item = event.detail.idClub;
+		bookmarkTemp = clubscache.find(({ id }) => id === item);
+		if (pin.find(({ id }) => id === item)) {
+			pin = pin.filter(function (e) {
+				return e.id !== item;
+			});
+			localStorage.bookmarkStore = JSON.stringify(pin);
+			bookmark = JSON.parse(localStorage.getItem('bookmarkStore'));
+		} else {
+			pin = [...pin, bookmarkTemp];
+			localStorage.bookmarkStore = JSON.stringify(pin);
+			bookmark = JSON.parse(localStorage.getItem('bookmarkStore'));
+		}
+	}
+
+	function removeBM(event, item, bookmarkTemp) {
+		pin = JSON.parse(localStorage.getItem('bookmarkStore'));
+		item = event.detail.idClub;
+		bookmarkTemp = clubscache.find(({ id }) => id === item);
+		if (pin.find(({ id }) => id === item)) {
+			pin = pin.filter(function (e) {
+				return e.id !== item;
+			});
+			localStorage.bookmarkStore = JSON.stringify(pin);
+			bookmark = JSON.parse(localStorage.getItem('bookmarkStore'));
+		}
+	}
 
 	function setnew() {
 		localStorage.setItem('sortname', '0');
@@ -54,16 +77,15 @@
 		viewmode = 1;
 	}
 
-	function pinadd() {
-		pin = [...pin, clubscache2[2]];
-	}
-
 	const viewmenu = createMenu({ label: 'viewmenu' });
 	const sortmenu = createMenu({ label: 'sortmenu' });
 	function onSelect(e: Event) {
 		console.log('select', (e as CustomEvent).detail);
 	}
 
+	onMount(() => {
+		ready = true;
+	});
 	if (browser) {
 		if (localStorage.sortname == 1) {
 			setname();
@@ -74,6 +96,10 @@
 			viewcompact();
 		} else {
 			viewdetail();
+		}
+
+		if (localStorage.getItem('bookmarkStore')) {
+			bookmark = JSON.parse(localStorage.getItem('bookmarkStore'));
 		}
 
 		if ($page.url.search == '?update') {
@@ -100,13 +126,20 @@
 		class="container max-w-screen-2xl"
 	>
 		<h1 class=" text-xl mb-6 font-bold text-gray-700 dark:text-gray-300 flex">Bookmark</h1>
+
 		<main
 			in:scale={{ duration: 700, delay: 200, opacity: 0, start: 0.97 }}
 			out:scale={{ duration: 250, delay: 0, opacity: 0, start: 1.01 }}
 			class="grid w-full gap-6 pb-16 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6"
 		>
-			{#each pin as club}
-				<Cardclubpin {club} />
+			{#each bookmark as club (club.id)}
+				<div
+					animate:flip={{ duration: 300, delay: 0 }}
+					in:scale={{ duration: 300, delay: 150, opacity: 0, start: 0.95 }}
+					out:scale={{ duration: 300, delay: 150, opacity: 0, start: 1.08 }}
+				>
+					<Cardclubpin {club} on:removeBookmark={removeBM} />
+				</div>
 			{/each}
 		</main>
 		<div class="flex justify-between">
@@ -238,7 +271,7 @@
 					class="grid absolute pt-6 w-full gap-10 pb-40 grid-cols-[repeat(auto-fit,minmax(280px,_1fr))]"
 				>
 					{#each clubscache as club}
-						<Cardclub {club} logincheck={data.user} on:addItemToCart={addItemToCart} />
+						<Cardclub {club} logincheck={data.user} on:addItemToBookmark={clubid} />
 					{/each}
 				</main>
 			{/if}
@@ -249,7 +282,7 @@
 					class="grid absolute w-full pt-6 gap-10 pb-40 grid-cols-[repeat(auto-fit,minmax(280px,_1fr))]"
 				>
 					{#each clubscache2 as club}
-						<Cardclub {club} logincheck={data.user} on:addItemToCart={addItemToCart} />
+						<Cardclub {club} logincheck={data.user} on:addItemToBookmark={clubid} />
 					{/each}
 				</main>
 			{/if}
@@ -260,7 +293,7 @@
 					class="grid absolute w-full pt-6 gap-10 pb-40 grid-cols-[repeat(auto-fit,minmax(280px,_1fr))]"
 				>
 					{#each clubscache as club}
-						<Cardclubmini {club} logincheck={data.user} />
+						<Cardclubmini {club} logincheck={data.user} on:addItemToBookmark={clubid} />
 					{/each}
 				</main>
 			{/if}
@@ -271,7 +304,7 @@
 					class="grid absolute w-full pt-6 gap-10 pb-40 grid-cols-[repeat(auto-fit,minmax(280px,_1fr))]"
 				>
 					{#each clubscache2 as club}
-						<Cardclubmini {club} logincheck={data.user} />
+						<Cardclubmini {club} logincheck={data.user} on:addItemToBookmark={clubid} />
 					{/each}
 				</main>
 			{/if}

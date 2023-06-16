@@ -1,12 +1,39 @@
 <script>
+	import { createEventDispatcher } from 'svelte';
 	import { getImageURL } from '$lib/utils';
 	export let club, logincheck;
+	const dispatch = createEventDispatcher();
+	let item;
+	function addItemToBookmark() {
+		dispatch('addItemToBookmark', {
+			idClub: club.id
+		});
+	}
 </script>
 
 <article
-	id={club.id}
 	class=" bg-[#F6FAFE] group overflow-hidden border-l border-t relative border-white rounded-lg shadow-3xl dark:bg-[#1D1D23] dark:border-gray-800"
 >
+	<button
+		on:click={addItemToBookmark}
+		class="hidden w-6 h-6 absolute left-2 top-2 group-hover:block bookmark"
+	>
+		<svg
+			class="stroke-slate-300 hover:stroke-slate-500 transition-colors"
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<path
+				d="M17.593 3.322C18.693 3.45 19.5 4.399 19.5 5.507V21L12 17.25L4.5 21V5.507C4.5 4.399 5.306 3.45 6.407 3.322C10.1232 2.89063 13.8768 2.89063 17.593 3.322Z"
+				stroke-width="1.5"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			/>
+		</svg>
+	</button>
 	{#if logincheck != undefined}
 		<a class="hidden w-6 h-6 absolute right-2 top-2 group-hover:block" href="club/edit/{club.id}">
 			<svg
