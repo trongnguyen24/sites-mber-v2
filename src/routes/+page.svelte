@@ -2,7 +2,7 @@
 	import { createMenu } from 'svelte-headlessui';
 	import Transition from 'svelte-transition';
 	import { flip } from 'svelte/animate';
-	import { scale } from 'svelte/transition';
+	import { scale, slide } from 'svelte/transition';
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
 	import Cardclub from '$lib/components/cardclub.svelte';
@@ -20,6 +20,7 @@
 	let sortname;
 	let bookmark = [];
 	let viewmode;
+	let bm;
 
 	clubs.subscribe((dataclub) => {
 		clubscache = dataclub;
@@ -30,7 +31,10 @@
 	});
 
 	function clubid(event, item, bookmarkTemp) {
-		pin = JSON.parse(localStorage.getItem('bookmarkStore'));
+		if (localStorage.getItem('bookmarkStore')) {
+			pin = JSON.parse(localStorage.getItem('bookmarkStore'));
+		}
+
 		item = event.detail.idClub;
 		bookmarkTemp = clubscache.find(({ id }) => id === item);
 		if (pin.find(({ id }) => id === item)) {
@@ -56,6 +60,14 @@
 			});
 			localStorage.bookmarkStore = JSON.stringify(pin);
 			bookmark = JSON.parse(localStorage.getItem('bookmarkStore'));
+		}
+	}
+
+	function test() {
+		if (bm === 1) {
+			bm = 0;
+		} else {
+			bm = 1;
 		}
 	}
 
@@ -100,6 +112,8 @@
 
 		if (localStorage.getItem('bookmarkStore')) {
 			bookmark = JSON.parse(localStorage.getItem('bookmarkStore'));
+		} else {
+			localStorage.setItem('bookmarkStore', '');
 		}
 
 		if ($page.url.search == '?update') {
@@ -128,15 +142,17 @@
 		<h1 class=" text-xl mb-6 font-bold text-gray-700 dark:text-gray-300 flex">Bookmark</h1>
 
 		<main
+			id="aaa"
 			in:scale={{ duration: 700, delay: 200, opacity: 0, start: 0.97 }}
 			out:scale={{ duration: 250, delay: 0, opacity: 0, start: 1.01 }}
-			class="grid w-full gap-6 pb-16 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6"
+			class="grid transition-all w-full gap-6 pb-16 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6"
 		>
+			<button on:click={test}>aaa</button>
 			{#each bookmark as club (club.id)}
 				<div
 					animate:flip={{ duration: 300, delay: 0 }}
-					in:scale={{ duration: 300, delay: 150, opacity: 0, start: 0.95 }}
-					out:scale={{ duration: 300, delay: 150, opacity: 0, start: 1.08 }}
+					in:slide={{ duration: 300, delay: 120 }}
+					out:slide={{ duration: 300, delay: 120 }}
 				>
 					<Cardclubpin {club} on:removeBookmark={removeBM} />
 				</div>
@@ -282,7 +298,7 @@
 					class="grid absolute w-full pt-6 gap-10 pb-40 grid-cols-[repeat(auto-fit,minmax(280px,_1fr))]"
 				>
 					{#each clubscache2 as club}
-						<Cardclub {club} logincheck={data.user} on:addItemToBookmark={clubid} />
+						<Cardclub {club} logincheck={data.user} bookmarked="1" on:addItemToBookmark={clubid} />
 					{/each}
 				</main>
 			{/if}
