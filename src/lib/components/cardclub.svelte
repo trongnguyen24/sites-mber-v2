@@ -1,7 +1,9 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
 	import { getImageURL } from '$lib/utils';
-	export let club, logincheck, bookmarked;
+	import { scale } from 'svelte/transition';
+
+	export let club, logincheck;
 	const dispatch = createEventDispatcher();
 	function addItemToBookmark() {
 		dispatch('addItemToBookmark', {
@@ -17,7 +19,7 @@
 		class="w-6 flex opacity-100 group-hover:opacity-100 transition-all flex-col gap-1 absolute right-2 top-2"
 	>
 		{#if logincheck != undefined}
-			<a class="w-6 h-6" href="club/edit/{club.id}">
+			<a data-sveltekit-noscroll class="w-6 h-6" href="club/edit/{club.id}">
 				<svg
 					width="24"
 					height="24"
@@ -41,11 +43,13 @@
 				</svg>
 			</a>
 		{/if}
-		<button on:click={addItemToBookmark} class="w-6 h-6">
-			{#if bookmarked === '1'}
+		<button on:click={addItemToBookmark} class="w-6 h-6 relative">
+			{#if club.bookmarked === true}
 				<svg
+					in:scale={{ duration: 350, delay: 50, opacity: 0, start: 0.7 }}
+					out:scale={{ duration: 350, delay: 50, opacity: 0, start: 0.7 }}
 					id={club.id}
-					class="stroke-slate-300 fill-transparent hover:stroke-slate-500 transition-colors dark:stroke-slate-600 dark:hover:stroke-slate-400"
+					class="stroke-red-500 top-0 absolute fill-red-500 hover:stroke-red-500 transition-colors dark:stroke-red-500 dark:hover:stroke-red-500"
 					width="24"
 					height="24"
 					viewBox="0 0 24 24"
@@ -60,8 +64,10 @@
 				</svg>
 			{:else}
 				<svg
+					in:scale={{ duration: 350, delay: 50, opacity: 0, start: 0.5 }}
+					out:scale={{ duration: 350, delay: 50, opacity: 0, start: 1.5 }}
 					id={club.id}
-					class="stroke-red-400 fill-transparent hover:stroke-red-300 transition-colors dark:stroke-red-600 dark:hover:stroke-red-400"
+					class="stroke-slate-300 top-0 absolute fill-transparent hover:stroke-red-500 transition-colors dark:stroke-slate-600 dark:hover:stroke-red-400"
 					width="24"
 					height="24"
 					viewBox="0 0 24 24"
@@ -91,7 +97,7 @@
 		</picture>
 	</div>
 	<div class="flex flex-col gap-4 p-6 border-t border-slate-100 dark:border-gray-900">
-		<h2 class="text-lg font-semibold text-center text-slate-600 dark:text-slate-100">
+		<h2 class="text-lg font-semibold text-center text-slate-600 dark:text-slate-300">
 			{club.name}
 		</h2>
 		<div class="flex flex-col gap-2">
@@ -128,7 +134,7 @@
 			</a>
 			<a rel="noreferrer" target="_blank" href="https://{club.sandbox}/page">
 				<div
-					class="flex items-center h-6 overflow-hidden text-xs transition-all border divide-x rounded divide-emerald-500 font-code border-slate-200 dark:hover:border-slate-600 hover:border-slate-400 dark:border-gray-800"
+					class="flex items-center h-6 overflow-hidden text-xs transition-all border divide-x rounded divide-fuchsia-500 font-code border-slate-200 dark:hover:border-slate-600 hover:border-slate-400 dark:border-gray-800"
 				>
 					<div class="w-10 pl-2 text-slate-700 shrink-0 dark:text-slate-100 select-none">Sand</div>
 					<div class="h-6 max-w-full pl-2 leading-6 whitespace-nowrap text-slate-400">
