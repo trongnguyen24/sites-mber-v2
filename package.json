@@ -32,6 +32,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@formkit/auto-animate": "^0.7.0",
 		"@thoughtbot/tailwindcss-aria-attributes": "^0.2.0",
 		"overlayscrollbars": "^2.1.1",
 		"pnpm": "^8.2.0",
