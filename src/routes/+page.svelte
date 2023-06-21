@@ -228,7 +228,7 @@
 	{#if ready}
 		<div class="flex justify-between flex-col gap-4 sm:flex-row">
 			<h1
-				class="text-2xl justify-center font-bold text-gray-700 dark:text-gray-300 flex text-center"
+				class="text-xl justify-center font-bold text-gray-700 dark:text-gray-300 flex text-center"
 			>
 				Mber+® sites url
 			</h1>
