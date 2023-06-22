@@ -97,7 +97,7 @@
 		</picture>
 	</div>
 	<div class="flex flex-col gap-4 p-6 border-t border-slate-100 dark:border-gray-900">
-		<h2 class="text-lg font-semibold text-center text-slate-600 dark:text-slate-300">
+		<h2 class="text-lg font-semibold text-center text-slate-700 dark:text-zinc-200">
 			{club.name}
 		</h2>
 		<div class="flex flex-col gap-2">

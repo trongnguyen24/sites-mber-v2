@@ -187,7 +187,7 @@
 			in:slide={{ duration: 300, delay: 100 }}
 			out:slide={{ duration: 300, delay: 50 }}
 		>
-			<h1 class=" text-xl mb-6 font-bold text-gray-700 dark:text-gray-300 flex">Bookmarks</h1>
+			<h1 class=" text-xl mb-6 font-bold text-gray-800 dark:text-gray-200 flex">Bookmarks</h1>
 
 			<main
 				out:scale={{ duration: 250, delay: 0, opacity: 0, start: 1.01 }}
@@ -228,7 +228,7 @@
 	{#if ready}
 		<div class="flex justify-between flex-col gap-4 sm:flex-row">
 			<h1
-				class="text-xl justify-center font-bold text-gray-700 dark:text-gray-300 flex text-center"
+				class="text-xl justify-center font-bold text-gray-800 dark:text-gray-200 flex text-center"
 			>
 				Mber+® sites url
 			</h1>
@@ -422,7 +422,7 @@
 									on:click={setname}
 									class="flex items-center w-full px-6 py-2 rounded text-sm text-gray-700 dark:text-gray-400 group dark:hover:bg-gray-700 hover:bg-slate-100"
 								>
-									Name A->Z
+									Name Alphabetically
 								</button>
 							</div>
 						</div>
