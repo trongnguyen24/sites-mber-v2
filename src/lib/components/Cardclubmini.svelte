@@ -98,7 +98,7 @@
 				height="40"
 			/>
 		</picture>
-		<h2 class="text-base font-semibold text-slate-600 dark:text-slate-300">
+		<h2 class="text-base font-semibold text-slate-700 dark:text-zinc-200">
 			{club.name}
 		</h2>
 	</div>

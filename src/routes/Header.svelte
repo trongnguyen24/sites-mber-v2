@@ -228,6 +228,7 @@
 			<div class="flex gap-8 items-center">
 				{#if user != undefined}
 					<a
+						data-sveltekit-noscroll
 						in:scale
 						out:scale
 						aria-current={$page.url.pathname === '/club/new' ? 'true' : undefined}
@@ -241,7 +242,13 @@
 					<Theme />
 					<div class="relative w-8 h-8 justify-center items-center">
 						{#if user === undefined}
-							<a class="absolute top-1 left-1" in:scale out:scale href="/login">
+							<a
+								data-sveltekit-noscroll
+								class="absolute top-1 left-1"
+								in:scale
+								out:scale
+								href="/login"
+							>
 								<svg
 									width="24"
 									height="24"
@@ -290,6 +297,7 @@
 									>
 										<div class="py-1">
 											<a
+												data-sveltekit-noscroll
 												href="/account"
 												use:accmenu.item
 												class="w-full inline-block text-right px-4 py-2 text-sm text-gray-700 dark:text-gray-400 group dark:hover:bg-gray-700 hover:bg-slate-100"
@@ -351,6 +359,7 @@
 							<ul on:click={dialogmenu.close} class="flex flex-col gap-6">
 								<Menu />
 							</ul>
+
 							<div
 								class="flex justify-between pt-6 mt-6 border-t border-t-gray-200 dark:border-t-gray-700"
 							>

@@ -36,7 +36,7 @@
 	<div
 		class="flex items-center h-12 justify-left px-8 py-4 bg-white dark:bg-gray-800 dark:bg-opacity-10"
 	>
-		<p class="text-sm w-full text-center font-bold text-slate-600 dark:text-slate-300">
+		<p class="text-sm w-full text-center font-bold text-slate-700 dark:text-zinc-200">
 			{club.name}
 		</p>
 	</div>
