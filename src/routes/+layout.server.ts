@@ -3,7 +3,7 @@ import { serializeNonPOJOs } from '$lib/utils';
 
 export const load: LayoutServerLoad = async ({ locals, url }) => {
 	const pathname = url.pathname;
-	// http://backend.nguyenlee.com/api/collections/club/records
+	// https://api.cryberpig.xyz/api/collections/club/records
 
 	// const clubs = serializeNonPOJOs(
 	// 	await locals.pb.collection('club').getFullList({

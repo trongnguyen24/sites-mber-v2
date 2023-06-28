@@ -13,7 +13,7 @@
 
 	const fetchdata = (async () => {
 		const response = await fetch(
-			'http://backend.nguyenlee.com/api/collections/club/records/' + idclub
+			'https://api.cryberpig.xyz/api/collections/club/records/' + idclub
 		);
 		return await response.json();
 	})();
