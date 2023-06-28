@@ -14,7 +14,7 @@
 </script>
 
 <article
-	class=" bg-[#F6FAFE] group overflow-hidden border-l border-t relative border-white rounded-lg shadow-3xl dark:bg-[#1D1D23] dark:border-gray-800"
+	class=" bg-[#F6FAFE] group overflow-hidden border-l border-t relative border-white rounded-lg shadow-md dark:bg-[#1D1D23] dark:border-gray-800"
 >
 	<div
 		class="w-6 flex opacity-100 group-hover:opacity-100 transition-all flex-col gap-1 absolute right-2 top-2"
@@ -85,17 +85,17 @@
 		</button>
 	</div>
 	<div
-		class="flex items-center gap-4 flex-row h-16 justify-left px-8 py-4 bg-white dark:bg-gray-800 dark:bg-opacity-10"
+		class="flex items-center gap-4 flex-row h-20 justify-left px-8 py-2 bg-white dark:bg-gray-800 dark:bg-opacity-10"
 	>
-		<picture class="w-8 h-8">
+		<picture class="w-10 h-10">
 			<img
 				src={club?.thumbnail
 					? getImageURL(club.collectionId, club.id, club.thumbnail, '100x100')
 					: `https://via.placeholder.com/80/4506CB/FFFFFF/?text=${club.name}`}
 				alt="club thumbnail"
 				loading="lazy"
-				width="32"
-				height="32"
+				width="40"
+				height="40"
 			/>
 		</picture>
 		<h2 class="text-base font-semibold text-slate-600 dark:text-slate-300">
