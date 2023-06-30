@@ -13,7 +13,7 @@
 			<h2 class="mb-12 text-center text-3xl font-bold text-slate-800 dark:text-slate-50">
 				About this project
 			</h2>
-			<Input id="name" label="Club name" />
+			<Input id="name" required="true" label="Club name" />
 			<Input id="shortname" label="Short name" />
 			<Input id="dev" label="Dev" />
 			<Input id="test" label="Test" />

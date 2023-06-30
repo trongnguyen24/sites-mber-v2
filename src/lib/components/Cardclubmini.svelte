@@ -20,7 +20,7 @@
 		class="w-6 flex opacity-100 group-hover:opacity-100 transition-all flex-col gap-1 absolute right-2 top-2"
 	>
 		{#if logincheck != undefined}
-			<a data-sveltekit-noscroll class="w-5 h-5" href="club/edit/{club.id}">
+			<a class="w-5 h-5" href="club/edit/{club.id}" data-sveltekit-noscroll>
 				<svg
 					width="20"
 					height="20"

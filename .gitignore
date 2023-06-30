@@ -10,3 +10,4 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 build.zip
 node_modules.zip
+build 2.zip

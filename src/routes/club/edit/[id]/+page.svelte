@@ -100,7 +100,7 @@
 					hover:file:bg-sky-200 dark:file:hover:bg-gray-600"
 					/>
 				</div>
-				<Input id="name" label="Club name" value={club.name ?? ''} />
+				<Input id="name" required="true" label="Club name" value={club.name ?? ''} />
 				<Input id="shortname" label="Short name" value={club.shortname ?? ''} />
 				<Input id="dev" label="Dev" value={club.dev ?? ''} />
 				<Input id="test" label="Test" value={club.test ?? ''} />
