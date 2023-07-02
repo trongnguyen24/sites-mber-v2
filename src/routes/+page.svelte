@@ -91,6 +91,9 @@
 			pin = pin.filter(function (e) {
 				return e.id !== item;
 			});
+			if (pin.length === 1) {
+				localStorage.setItem('bookmarkStore', '');
+			}
 			localStorage.bookmarkStore = JSON.stringify(pin);
 			bookmark = JSON.parse(localStorage.getItem('bookmarkStore'));
 		}
@@ -142,14 +145,12 @@
 			bookmark = JSON.parse(localStorage.getItem('bookmarkStore'));
 			clubscache.forEach(function (element, i) {
 				i = bookmark.find(({ id }) => id === element.id);
-				console.log(i);
 				if (i !== undefined) {
 					element.bookmarked = true;
 				}
 			});
 			clubscache2.forEach(function (element, i) {
 				i = bookmark.find(({ id }) => id === element.id);
-				console.log(i);
 				if (i !== undefined) {
 					element.bookmarked = true;
 				}

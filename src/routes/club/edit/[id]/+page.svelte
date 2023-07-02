@@ -65,13 +65,13 @@
 				class="w-full max-w-sm mx-auto"
 				enctype="multipart/form-data"
 			>
-				<h2 class="mb-12 text-center text-2xl font-bold text-slate-800 dark:text-slate-50">
+				<h2 class="mb-8 text-center text-2xl font-bold text-slate-800 dark:text-slate-50">
 					Edit {club.name}
 				</h2>
 				{#if club.thumbnail}
 					<label for="thumbnail" class="avatar w-20 hover:cursor-pointer">
 						<label for="thumbnail" class="absolute -top-1.5 -right-1.5 hover:cursor-pointer" />
-						<div class="w-20 mx-auto">
+						<div class="w-20 h-20 mb-4 mx-auto">
 							<img
 								id="img-preview"
 								src={getImageURL(club.collectionId, club.id, club.thumbnail, '80x80')}
