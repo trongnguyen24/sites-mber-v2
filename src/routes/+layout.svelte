@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import Header from './Header.svelte';
 	import '../app.css';
 	import beam from '$lib/images/beam.webp';

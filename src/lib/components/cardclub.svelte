@@ -3,7 +3,7 @@
 	import { getImageURL } from '$lib/utils';
 	import { scale } from 'svelte/transition';
 
-	export let club, logincheck;
+	export let club;
 	const dispatch = createEventDispatcher();
 	function addItemToBookmark() {
 		dispatch('addItemToBookmark', {
