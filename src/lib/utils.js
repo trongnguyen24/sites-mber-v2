@@ -10,5 +10,6 @@ export const generateUsername = (name) => {
 };
 
 export const getImageURL = (collectionId, recordId, fileName, size = '0x0') => {
-	return `http://backend.nguyenlee.com/api/files/${collectionId}/${recordId}/${fileName}?thumb=${size}`;
+	return `/icon/LichHen.png`;
 };
+// return `/icon/${fileName}LichHen.png`;

@@ -5,14 +5,9 @@
 	import beam_fallback from '$lib/images/beam.png';
 	import beam_light from '$lib/images/beam-light.webp';
 	import beam_light_fallback from '$lib/images/beam-light.png';
-	import PageTransition from '$lib/components/PageTransition.svelte';
-
-	import type { PageData } from './$types';
-
-	export let data: PageData;
 </script>
 
-<Header user={data.user} />
+<Header />
 <div class="flex flex-col min-h-full">
 	<div
 		class="absolute z-10 top-0 inset-x-0 flex justify-center overflow-hidden pointer-events-none select-none"
@@ -31,8 +26,6 @@
 	</div>
 
 	<main class="w-full grow mx-auto z-10 py-28">
-		<PageTransition pathname={data.pathname}>
-			<slot />
-		</PageTransition>
+		<slot />
 	</main>
 </div>

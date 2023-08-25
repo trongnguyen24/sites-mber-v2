@@ -36,7 +36,7 @@
 	<div
 		class="flex items-center h-12 justify-left px-8 py-4 bg-white dark:bg-gray-800 dark:bg-opacity-10"
 	>
-		<p class="text-sm w-full text-center font-bold text-slate-600 dark:text-slate-300">
+		<p class="text-sm w-full text-center font-medium text-slate-600 dark:text-slate-300">
 			{club.name}
 		</p>
 	</div>
@@ -47,27 +47,6 @@
 					class=" py-2 px-2 bg-slate-50 text-slate-500 dark:text-slate-400 border-slate-300 dark:border-slate-600 dark:bg-slate-700 group-hover:hover:text-sky-500 group-hover:text-slate-600 group-hover:bg-white dark:bg-opacity-30 dark:hover:bg-opacity-60 dark:group-hover:hover:text-sky-500 dark:group-hover:bg-slate-800 dark:group-hover:text-slate-300 transition-colors duration-150"
 				>
 					Dev
-				</div></a
-			>
-			<a rel="noreferrer" class="w-full" target="_blank" href="https://{club.test}/page"
-				><div
-					class=" py-2 px-2 bg-slate-50 text-slate-500 dark:text-slate-400 border-slate-300 dark:border-slate-600 dark:bg-slate-700 group-hover:hover:text-purple-500 group-hover:text-slate-600 group-hover:bg-white dark:bg-opacity-30 dark:hover:bg-opacity-60 dark:group-hover:bg-slate-800 dark:group-hover:hover:text-purple-500 dark:group-hover:text-slate-300 transition-colors duration-150"
-				>
-					Test
-				</div></a
-			>
-			<a rel="noreferrer" class="w-full" target="_blank" href="https://{club.uat}/page"
-				><div
-					class=" py-2 px-2 bg-slate-50 text-slate-500 dark:text-slate-400 border-slate-300 dark:border-slate-600 dark:bg-slate-700 group-hover:hover:text-emerald-500 group-hover:text-slate-600 group-hover:bg-white dark:bg-opacity-30 dark:hover:bg-opacity-60 dark:group-hover:bg-slate-800 dark:group-hover:hover:text-emerald-500 dark:group-hover:text-slate-300 transition-colors duration-150"
-				>
-					Uat
-				</div></a
-			>
-			<a rel="noreferrer" class="w-full" target="_blank" href="https://{club.sandbox}/page"
-				><div
-					class=" py-2 px-2 bg-slate-50 text-slate-500 dark:text-slate-400 border-slate-300 dark:border-slate-600 dark:bg-slate-700 group-hover:hover:text-fuchsia-500 group-hover:text-slate-600 group-hover:bg-white dark:bg-opacity-30 dark:hover:bg-opacity-60 dark:group-hover:bg-slate-800 dark:group-hover:hover:text-fuchsia-500 dark:group-hover:text-slate-300 transition-colors duration-150"
-				>
-					Sand
 				</div></a
 			>
 			<a rel="noreferrer" class="w-full" target="_blank" href="https://{club.live}/page"
