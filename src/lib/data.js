@@ -31,7 +31,6 @@ export const sites = [
 	},
 	{
 		sName: 'QMS - Điều phối - HN',
-		sColor: '#800080',
 		sUrl: '',
 		sLive: 'http://10.8.8.27:3000',
 		sIcon: 'HangDoi.png'
@@ -44,7 +43,6 @@ export const sites = [
 	},
 	{
 		sName: 'OTM - Quản lý phòng mổ - HN',
-		sColor: '#800080',
 		sUrl: '',
 		sLive: 'http://10.8.191.39:3000',
 		sIcon: 'PhongMo.png'
@@ -111,7 +109,6 @@ export const sites = [
 	},
 	{
 		sName: 'Multi Site - IVF - Hỗ trợ sinh sản',
-		sColor: '#00FF00',
 		sUrl: 'http://172.20.9.16:6232',
 		sLive: '',
 		sIcon: 'IVF-HoTroSinhSan.png'
