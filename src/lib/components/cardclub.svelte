@@ -13,12 +13,12 @@
 </script>
 
 <article
-	class=" bg-[#F6FAFE] group overflow-hidden border-l border-t relative border-white rounded-2xl shadow-3xl dark:bg-[#1D1D23] dark:border-gray-800"
+	class=" bg-[#F6FAFE] group overflow-hidden border-t border-l relative border-white rounded-2xl shadow-soft hover:shadow-3xl dark:hover:bg-[#24242c] transition-shadow duration-300 dark:hover:shadow-3xl-dark dark:bg-[#1D1D23] dark:border-gray-800"
 >
 	<div
 		class="w-6 flex opacity-100 group-hover:opacity-100 transition-all flex-col gap-1 absolute right-2 top-2"
 	>
-		<button on:click={addItemToBookmark} class="w-6 h-6 relative">
+		<!-- <button on:click={addItemToBookmark} class="w-6 h-6 relative">
 			{#if club.bookmarked === true}
 				<svg
 					in:scale={{ duration: 350, delay: 50, opacity: 0, start: 0.7 }}
@@ -56,46 +56,47 @@
 					/>
 				</svg>
 			{/if}
-		</button>
+		</button> -->
 	</div>
 	<div
-		class="flex items-center gap-4 flex-row h-16 justify-left px-8 py-4 bg-white dark:bg-gray-800 dark:bg-opacity-10"
+		class="flex items-center gap-4 flex-row h-16 justify-left px-6 py-3 bg-white dark:bg-gray-800 dark:bg-opacity-10"
 	>
-		<picture class="w-10 h-10">
+		<picture class="w-12 h-12">
 			<img
-				src={club?.thumbnail
-					? getImageURL(club.collectionId, club.id, club.thumbnail, '100x100')
-					: `https://via.placeholder.com/80/4506CB/FFFFFF/?text=${club.name}`}
+				src={club?.sIcon
+					? getImageURL(club.sIcon)
+					: `https://via.placeholder.com/80/4506CB/FFFFFF/?text=${club.sName}`}
 				alt="club thumbnail"
 				loading="lazy"
 				width="48"
 				height="48"
 			/>
 		</picture>
-		<h2 class="text-sm font-medium text-slate-600 dark:text-slate-300">
-			{club.name}
+		<h2 class="text-sm font-medium text-slate-800 dark:text-slate-200">
+			<span class="text-gray-500">{club.id}.</span>
+			{club.sName}
 		</h2>
 	</div>
-	<div class="flex flex-col gap-4 p-6 border-t border-slate-100 dark:border-gray-900">
+	<div class="flex flex-col gap-2 p-4 border-t border-slate-100 dark:border-gray-900">
 		<div class="flex flex-col gap-2">
-			<a rel="noreferrer" target="_blank" href="https://{club.dev}/page">
+			<a rel="noreferrer" target="_blank" href={club.sUrl}>
 				<div
 					class="flex items-center h-6 overflow-hidden text-xs transition-all border divide-x rounded divide-sky-500 font-code border-slate-200 dark:hover:border-slate-600 hover:border-slate-400 dark:border-gray-800"
 				>
 					<div class="w-10 pl-2 text-slate-700 shrink-0 dark:text-slate-100 select-none">Dev</div>
 
 					<div class="h-6 max-w-full pl-2 leading-6 whitespace-nowrap text-slate-400">
-						{club.dev}
+						{club.sUrl}
 					</div>
 				</div>
 			</a>
-			<a rel="noreferrer" target="_blank" href="https://{club.live}/page">
+			<a rel="noreferrer" target="_blank" href={club.sLive}>
 				<div
 					class="flex items-center h-6 overflow-hidden text-xs transition-all border divide-x rounded divide-lime-500 font-code border-slate-200 dark:hover:border-slate-600 hover:border-slate-400 dark:border-gray-800"
 				>
 					<div class="w-10 pl-2 text-slate-700 shrink-0 dark:text-slate-100 select-none">Live</div>
 					<div class="h-6 max-w-full pl-2 leading-6 whitespace-nowrap text-slate-400">
-						{club.live}
+						{club.sLive}
 					</div>
 				</div>
 			</a>

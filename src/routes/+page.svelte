@@ -1,20 +1,17 @@
 <script lang="ts">
 	// @ts-nocheck
 	import { createMenu } from 'svelte-headlessui';
-	import Transition from 'svelte-transition';
 	import autoAnimate from '@formkit/auto-animate';
-	import { flip } from 'svelte/animate';
 	import { fade, scale, slide } from 'svelte/transition';
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
 	import Cardclub from '$lib/components/cardclub.svelte';
 	import { Cardclubpin } from '$lib/components';
 	import { clubs, club2s } from '$lib/Store.js';
-	import { page } from '$app/stores';
+
+	export let data;
 
 	let ready = false;
-
-	console.log();
 
 	let pin = [];
 	let clubscache;
@@ -114,46 +111,31 @@
 		ready = true;
 	});
 	if (browser) {
-		if (localStorage.bookmarkShow === 'true') {
-			toggleBookmark();
-		}
-
-		if (localStorage.getItem('bookmarkStore')) {
-			bookmark = JSON.parse(localStorage.getItem('bookmarkStore'));
-			clubscache.forEach(function (element, i) {
-				i = bookmark.find(({ id }) => id === element.id);
-				console.log(i);
-				if (i !== undefined) {
-					element.bookmarked = true;
-				}
-			});
-			clubscache2.forEach(function (element, i) {
-				i = bookmark.find(({ id }) => id === element.id);
-				console.log(i);
-				if (i !== undefined) {
-					element.bookmarked = true;
-				}
-			});
-		} else {
-			localStorage.setItem('bookmarkStore', '');
-		}
-
-		if ($page.url.search == '?update') {
-			clubs.subscribe((dataclub) => {
-				clubscache = dataclub;
-			});
-
-			club2s.subscribe((dataclub2) => {
-				clubscache2 = dataclub2;
-			});
-		}
+		// if (localStorage.bookmarkShow === 'true') {
+		// 	toggleBookmark();
+		// }
+		// if (localStorage.getItem('bookmarkStore')) {
+		// 	bookmark = JSON.parse(localStorage.getItem('bookmarkStore'));
+		// 	clubscache.forEach(function (element, i) {
+		// 		i = bookmark.find(({ id }) => id === element.id);
+		// 		if (i !== undefined) {
+		// 			element.bookmarked = true;
+		// 		}
+		// 	});
+		// 	clubscache2.forEach(function (element, i) {
+		// 		i = bookmark.find(({ id }) => id === element.id);
+		// 		if (i !== undefined) {
+		// 			element.bookmarked = true;
+		// 		}
+		// 	});
+		// } else {
+		// 	localStorage.setItem('bookmarkStore', '');
+		// }
 	}
-
-	export let data;
 </script>
 
 <svelte:head>
-	<title>Mber+® Sites</title>
+	<title>TA Sites URL</title>
 	<meta name="description" content="" />
 </svelte:head>
 
@@ -210,7 +192,7 @@
 			<h1
 				class="text-2xl justify-center font-bold text-gray-700 dark:text-gray-300 flex text-center"
 			>
-				Mber+® sites url
+				TA sites url
 			</h1>
 			<div class="flex gap-6 justify-center">
 				<div class="relative z-10 inline-block">
@@ -271,8 +253,8 @@
 			out:scale={{ duration: 250, delay: 0, opacity: 0, start: 1.01 }}
 			class="grid absolute pt-6 w-full gap-10 pb-40 grid-cols-[repeat(auto-fit,minmax(280px,_1fr))]"
 		>
-			{#each clubscache as club (club.id)}
-				<Cardclub {club} logincheck={data.user} on:addItemToBookmark={clubid} />
+			{#each data.sites as club (club.sName)}
+				<Cardclub {club} on:addItemToBookmark={club.sName} />
 			{/each}
 		</main>
 	</div>

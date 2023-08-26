@@ -1,5 +1,4 @@
 import { writable } from 'svelte/store';
-import site from '$lib/data.json';
 
 const data = await fetch('https://api.cryberpig.xyz/api/collections/club/records?sort=-created');
 const data2 = await fetch('https://api.cryberpig.xyz/api/collections/club/records?sort=name');

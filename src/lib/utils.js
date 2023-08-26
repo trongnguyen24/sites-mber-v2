@@ -9,7 +9,6 @@ export const generateUsername = (name) => {
 	return `${name.slice(0, 5)}${id}`;
 };
 
-export const getImageURL = (collectionId, recordId, fileName, size = '0x0') => {
-	return `/icon/LichHen.png`;
+export const getImageURL = (sIcon) => {
+	return `/icon/${sIcon}`;
 };
-// return `/icon/${fileName}LichHen.png`;
