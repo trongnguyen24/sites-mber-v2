@@ -120,7 +120,7 @@
 							stroke-linejoin="round"
 						/>
 					</svg>
-					Quick search...
+					Tìm kiếm...
 				</button>
 			</div>
 			<div class="flex gap-8 items-center">

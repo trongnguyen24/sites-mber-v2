@@ -9,6 +9,7 @@
 	import { Cardclubpin } from '$lib/components';
 	import { clubs, club2s } from '$lib/Store.js';
 
+	console.log();
 	export let data;
 
 	let ready = false;
